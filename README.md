@@ -6,7 +6,7 @@ The pipeline integrates **Jenkins**, **GitHub**, **SonarQube**, **Prometheus**, 
 
 ---
 
-## 🚀 What This Setup Achieves
+## What This Setup Achieves
 - **Secure CI/CD pipeline** with GitHub + Jenkins
 - **Static Application Security Testing (SAST)** using SonarQube
 - **Quality Gate enforcement** to block low-quality code
@@ -18,7 +18,7 @@ The pipeline integrates **Jenkins**, **GitHub**, **SonarQube**, **Prometheus**, 
 
 ---
 
-## 🏗 Architecture Diagram
+## Architecture Diagram
 This setup includes:
 - **Jenkins master** with Docker agents
 - **SonarQube** connected to Jenkins for code analysis
