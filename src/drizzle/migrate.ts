@@ -4,16 +4,28 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import path from "path";
 
-// Configure SSL options for Neon.tech
-const sslOptions = {
-  rejectUnauthorized: false, // For development (use proper CA in production)
-  sslmode: 'require'
-};
+const connectionString = process.env.DATABASE_URL || "";
 
-// Create a new pool with SSL configuration
+// Decide SSL for migrations similar to runtime
+let shouldUseSSL = false;
+try {
+  const url = new URL(connectionString);
+  const host = url.hostname;
+  const isLocalHost = ["localhost", "127.0.0.1", "postgres"].includes(host);
+  const urlForcesSSL = /sslmode=require/i.test(connectionString);
+  const envForcesSSL = ["true", "1", "require"].includes(
+    String(process.env.DB_SSL || process.env.DATABASE_SSL || "false").toLowerCase()
+  );
+  shouldUseSSL = !isLocalHost && (envForcesSSL || urlForcesSSL);
+} catch {
+  shouldUseSSL = ["true", "1", "require"].includes(
+    String(process.env.DB_SSL || process.env.DATABASE_SSL || "false").toLowerCase()
+  );
+}
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: sslOptions
+  connectionString,
+  ssl: shouldUseSSL ? { rejectUnauthorized: false } : false as unknown as undefined
 });
 
 const db = drizzle(pool);
