@@ -1,0 +1,331 @@
+# Db connection test
+GET http://localhost:5000/test-db
+
+# Register a new user
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+  "fullname": "Gideon Ngetich",
+  "email": "gideon.ngetich@outlook.com",
+  "password": "password123"
+}
+
+###
+
+# Register another user (admin)
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+  "fullname": "Admin User",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "role": "admin"
+}
+
+###
+
+# Login with user credentials
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+  "email": "gideon.ngetich@outlook.com",
+  "password": "password123"
+}
+
+###
+
+# Login with admin credentials
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin123"
+}
+
+###
+
+# Get all users (requires authentication)
+GET http://localhost:5000/auth/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Get user by ID
+GET http://localhost:5000/auth/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Update user
+PUT http://localhost:5000/auth/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "fullname": "Ngetich Updated",
+  "email": "gideon.ngetich@outlook.com"
+}
+
+###
+
+### Category Management ###
+
+# Get all categories for the authenticated user
+GET http://localhost:5000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Create a new category
+POST http://localhost:5000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "name": "Work",
+  "description": "Work-related tasks and projects",
+  "color": "#FF6B6B"
+}
+
+###
+
+# Create another category
+POST http://localhost:5000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "name": "Personal",
+  "description": "Personal tasks and reminders",
+  "color": "#4ECDC4"
+}
+
+###
+
+# Create a third category
+POST http://localhost:5000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "name": "Shopping",
+  "description": "Shopping lists and errands",
+  "color": "#45B7D1"
+}
+
+###
+
+# Get a specific category by ID
+GET http://localhost:5000/categories/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Update a category
+PUT http://localhost:5000/categories/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "name": "Work & Projects",
+  "description": "Work-related tasks, projects, and professional development",
+  "color": "#FF8E53"
+}
+
+###
+
+# Update category color only
+PUT http://localhost:5000/categories/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "color": "#96CEB4"
+}
+
+###
+
+# Get all categories after updates
+GET http://localhost:5000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+### Task Management Tests ###
+
+# Get all tasks for the authenticated user
+GET http://localhost:5000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Create a new task
+POST http://localhost:5000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "title": "Complete Project Documentation",
+  "description": "Write comprehensive documentation for the task manager API",
+  "status": "in-progress",
+  "dueDate": "2024-12-31T23:59:59.000Z",
+  "priority": "HIGH",
+  "categoryId": 1
+}
+
+###
+
+# Create another task
+POST http://localhost:5000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "title": "Review Code Changes",
+  "description": "Review pull requests and provide feedback",
+  "status": "pending",
+  "dueDate": "2024-12-25T18:00:00.000Z",
+  "priority": "MEDIUM",
+  "categoryId": 1
+}
+
+###
+
+# Create a low priority task
+POST http://localhost:5000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "title": "Update README",
+  "description": "Update project README with latest features",
+  "status": "todo",
+  "dueDate": "2024-12-20T12:00:00.000Z",
+  "priority": "LOW",
+  "categoryId": 1
+}
+
+###
+
+# Create a personal task
+POST http://localhost:5000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "title": "Buy Groceries",
+  "description": "Get groceries for the week",
+  "status": "todo",
+  "dueDate": "2024-12-15T18:00:00.000Z",
+  "priority": "MEDIUM",
+  "categoryId": 2
+}
+
+###
+
+# Get a specific task by ID
+GET http://localhost:5000/tasks/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Update a task
+PUT http://localhost:5000/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "title": "Complete Project Documentation - Updated",
+  "description": "Write comprehensive documentation for the task manager API with examples",
+  "status": "completed",
+  "dueDate": "2024-12-31T23:59:59.000Z",
+  "priority": "HIGH",
+  "categoryId": 1
+}
+
+###
+
+# Update task status only
+PUT http://localhost:5000/tasks/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "status": "in-progress"
+}
+
+###
+
+# Toggle task completion
+PATCH http://localhost:5000/tasks/1/complete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "completed": true
+}
+
+###
+
+# Toggle task completion back to false
+PATCH http://localhost:5000/tasks/1/complete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+Content-Type: application/json
+
+{
+  "completed": false
+}
+
+###
+
+# Get tasks by status
+GET http://localhost:5000/tasks/status/completed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Get tasks by priority
+GET http://localhost:5000/tasks/priority/HIGH
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Get tasks due today
+GET http://localhost:5000/tasks/due/today
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Get overdue tasks
+GET http://localhost:5000/tasks/overdue
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Delete a task
+DELETE http://localhost:5000/tasks/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Get all tasks after deletion
+GET http://localhost:5000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Delete a category (this will also delete associated tasks due to cascade)
+DELETE http://localhost:5000/categories/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
+
+# Get all categories after deletion
+GET http://localhost:5000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+
+###
