@@ -1,12 +1,12 @@
 import "dotenv/config";
-import { pool } from "./db";
+import { client } from "./db";
 
 async function resetDatabase() {
     console.log("======== Database Reset Started ========");
     
     try {
         // Drop all tables and types
-        await pool.query(`
+        await client.query(`
             DROP TABLE IF EXISTS "tasks" CASCADE;
             DROP TABLE IF EXISTS "categories" CASCADE;
             DROP TABLE IF EXISTS "users" CASCADE;
@@ -17,7 +17,7 @@ async function resetDatabase() {
         console.log("✅ All tables and types dropped successfully");
         
         // Drop drizzle migrations table
-        await pool.query(`
+        await client.query(`
             DROP TABLE IF EXISTS "drizzle"."__drizzle_migrations" CASCADE;
         `);
         
@@ -27,7 +27,7 @@ async function resetDatabase() {
         console.error("❌ Error resetting database:", error);
         process.exit(1);
     } finally {
-        await pool.end();
+        await client.end();
     }
     
     console.log("======== Database Reset Completed ========");

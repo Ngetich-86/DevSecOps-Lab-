@@ -38,13 +38,14 @@ export const client = new Client({
   ssl: shouldUseSSL ? { rejectUnauthorized: false } : false as unknown as undefined
 });
 
-// Test the connection
+// Test the connection (non-blocking)
 client.connect()
   .then(() => {
     console.log("✅ Database connected successfully!");
   })
   .catch((err) => {
     console.error("❌ Database connection failed:", err.message);
+    // Don't throw here - let the app start and handle DB errors gracefully
   });
 
 const db = drizzle(client, { schema, logger: false });

@@ -45,6 +45,11 @@ const initilizeApp = () => {
     app.get('/', (req, res) => {
         res.send('Hello, World!');
     })
+
+    // Health check endpoint for Docker
+    app.get('/health', (req, res) => {
+        res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+    })
     return app;
 }
 
