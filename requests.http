@@ -4,6 +4,7 @@ GET http://localhost:3001/test-db
 GET http://localhost:3001/health
 
 # Register a new user
+
 POST http://localhost:3001/auth/register
 Content-Type: application/json
 
@@ -16,7 +17,7 @@ Content-Type: application/json
 ###
 
 # Register another user (admin)
-POST http://localhost:5000/auth/register
+POST http://localhost:3001/auth/register
 Content-Type: application/json
 
 {
@@ -29,7 +30,7 @@ Content-Type: application/json
 ###
 
 # Login with user credentials
-POST http://localhost:5000/auth/login
+POST http://localhost:3001/auth/login
 Content-Type: application/json
 
 {
@@ -40,7 +41,7 @@ Content-Type: application/json
 ###
 
 # Login with admin credentials
-POST http://localhost:5000/auth/login
+POST http://localhost:3001/auth/login
 Content-Type: application/json
 
 {
@@ -51,19 +52,19 @@ Content-Type: application/json
 ###
 
 # Get all users (requires authentication)
-GET http://localhost:5000/auth/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+GET http://localhost:3001/auth/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTcxNTgwNzksImlhdCI6MTc1NzA3MTY3OX0.iOgNmLHnJMUILT9igFrDvlbuI3XO1L1mbmgQpqqubJU
 
 ###
 
 # Get user by ID
-GET http://localhost:5000/auth/users/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+GET http://localhost:3001/auth/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTcxNTgwNzksImlhdCI6MTc1NzA3MTY3OX0.iOgNmLHnJMUILT9igFrDvlbuI3XO1L1mbmgQpqqubJU
 
 ###
 
 # Update user
-PUT http://localhost:5000/auth/users/1
+PUT http://localhost:3001/auth/users/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
 Content-Type: application/json
 
@@ -77,14 +78,14 @@ Content-Type: application/json
 ### Category Management ###
 
 # Get all categories for the authenticated user
-GET http://localhost:5000/categories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+GET http://localhost:3001/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTcxNTgwNzksImlhdCI6MTc1NzA3MTY3OX0.iOgNmLHnJMUILT9igFrDvlbuI3XO1L1mbmgQpqqubJU
 
 ###
 
 # Create a new category
-POST http://localhost:5000/categories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+POST http://localhost:3001/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTcxNTgwNzksImlhdCI6MTc1NzA3MTY3OX0.iOgNmLHnJMUILT9igFrDvlbuI3XO1L1mbmgQpqqubJU
 Content-Type: application/json
 
 {
@@ -160,14 +161,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfa
 ### Task Management Tests ###
 
 # Get all tasks for the authenticated user
-GET http://localhost:5000/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+GET http://localhost:3001/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTcxNTgwNzksImlhdCI6MTc1NzA3MTY3OX0.iOgNmLHnJMUILT9igFrDvlbuI3XO1L1mbmgQpqqubJU
 
 ###
 
 # Create a new task
-POST http://localhost:5000/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
+POST http://localhost:3001/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTcxNTgwNzksImlhdCI6MTc1NzA3MTY3OX0.iOgNmLHnJMUILT9igFrDvlbuI3XO1L1mbmgQpqqubJU
 Content-Type: application/json
 
 {

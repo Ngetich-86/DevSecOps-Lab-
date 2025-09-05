@@ -44,6 +44,7 @@ services:
       DATABASE_URL: postgresql://taskuser:taskpassword@postgres:5432/taskdb
       REDIS_URL: redis://redis:6379
       PORT: 3000
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
     ports:
       - "3001:3000"
     depends_on:
