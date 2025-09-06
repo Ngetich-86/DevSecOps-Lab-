@@ -1,0 +1,28 @@
+Next Steps - Access Your Monitoring Stack
+1. Access Grafana Dashboard
+Open: http://localhost:3001
+Login: admin / admin
+Navigate to Dashboards → Node.js Application Metrics
+2. View Prometheus Metrics
+Open: http://localhost:9090
+Go to Status → Targets to see scraping status
+Use Graph tab to query metrics
+3. Test Your Application
+Make requests to: http://localhost:3000
+Watch metrics update in real-time in Grafana
+Monitor performance and error rates
+📊 Available Metrics
+Your application now exposes these metrics:
+HTTP Request Rate: rate(http_requests_total[5m])
+Response Time: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+Error Rate: rate(error_count[5m])
+System Metrics: Memory, CPU, event loop lag
+Custom Business Metrics: Ready for your specific needs
+📚 Documentation
+The complete implementation guide is now available in docs/grafana.md with:
+Step-by-step setup instructions
+Configuration details
+Troubleshooting guide
+Best practices
+Monitoring commands
+Your monitoring stack is production-ready and will help you track application performance, identify issues, and make data-driven decisions! 🎯

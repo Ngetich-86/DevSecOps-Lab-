@@ -8,6 +8,8 @@ import cors from 'cors'
 import AuthRouter from './auth/auth.router';
 import TasksRouter from './tasks/tasks.router';
 import CategoryRouter from './category/category.router';
+import { prometheusMiddleware, getMetrics, getMetricsContentType } from './middleware/prometheus';
+import client from 'prom-client';
 
 const initilizeApp = () => {
     const app = express();
@@ -17,8 +19,21 @@ const initilizeApp = () => {
         methods: ["GET", "POST", "PUT", "DELETE"],
     }))
 
-    app.use(logger)
-    app.use(rateLimiterMiddleware)
+    app.use(logger);
+    // Rate Limiter middleware
+    app.use(rateLimiterMiddleware);
+    // Use Prometheus middleware
+    app.use(prometheusMiddleware);
+
+    // NEW: Metrics endpoint for Prometheus
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', client.register.contentType);
+    res.end(await getMetrics());
+  } catch (error) {
+    res.status(500).end(error);
+  }
+});
     
     // Database connection test route
     app.get('/test-db', async (req, res) => {

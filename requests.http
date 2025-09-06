@@ -332,3 +332,7 @@ GET http://localhost:5000/categories
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJfaWQiOjIsImZ1bGxuYW1lIjoiQWRtaW4gVXNlciIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3NTUxMTYxNDQsImlhdCI6MTc1NTAyOTc0NH0.GVjavyUiDdVI31arXekq1EzreGk7mtDcqEKh0vyL_Wc
 
 ###
+GET http://localhost:3000/metrics
+
+### Check Prometheus targets:
+GET http://localhost:9090/targets
