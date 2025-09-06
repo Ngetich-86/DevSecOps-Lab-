@@ -3,10 +3,10 @@ import {
   createTaskSchema,
   updateTaskSchema,
   taskStatusSchema,
-  taskCompletionSchema
-} from "../validators/task.validator";
+  taskCompletionSchema,
+} from '../validators/task.validator';
 import { TaskService } from './tasks.service';
-import { z } from "zod";
+import { z } from 'zod';
 
 // Extend Request interface to include user
 interface AuthenticatedRequest extends Request {
@@ -30,7 +30,7 @@ export class TaskController {
       const tasks = await taskService.getAllTasks(userId);
       res.status(200).json(tasks);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch tasks" });
+      res.status(500).json({ error: 'Failed to fetch tasks' });
     }
   }
 
@@ -39,15 +39,15 @@ export class TaskController {
     try {
       const userId = req.user.user_id;
       const taskId = parseInt(req.params.id);
-      
+
       const task = await taskService.getTaskById(taskId, userId);
       if (!task) {
-        return res.status(404).json({ error: "Task not found" });
+        return res.status(404).json({ error: 'Task not found' });
       }
-      
+
       res.status(200).json(task);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch task" });
+      res.status(500).json({ error: 'Failed to fetch task' });
     }
   }
 
@@ -56,13 +56,13 @@ export class TaskController {
     try {
       const userId = req.user.user_id;
       const input = createTaskSchema.parse(req.body);
-      
+
       const taskData = {
         ...input,
         userId,
         dueDate: new Date(input.dueDate),
         completed: false,
-        description: input.description || null // Convert undefined to null
+        description: input.description || null, // Convert undefined to null
       };
 
       const result = await taskService.createTask(taskData);
@@ -72,16 +72,16 @@ export class TaskController {
 
       res.status(201).json({
         message: result.message,
-        task: result.task
+        task: result.task,
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ 
-          error: "Validation failed", 
-          details: error.issues 
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: error.issues,
         });
       }
-      res.status(500).json({ error: "Failed to create task" });
+      res.status(500).json({ error: 'Failed to create task' });
     }
   }
 
@@ -108,12 +108,12 @@ export class TaskController {
       res.status(200).json({ message: result.message });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ 
-          error: "Validation failed", 
-          details: error.issues 
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: error.issues,
         });
       }
-      res.status(500).json({ error: "Failed to update task" });
+      res.status(500).json({ error: 'Failed to update task' });
     }
   }
 
@@ -130,7 +130,7 @@ export class TaskController {
 
       res.status(200).json({ message: result.message });
     } catch (error) {
-      res.status(500).json({ error: "Failed to delete task" });
+      res.status(500).json({ error: 'Failed to delete task' });
     }
   }
 
@@ -143,7 +143,7 @@ export class TaskController {
       const tasks = await taskService.getTasksByStatus(userId, status);
       res.status(200).json(tasks);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch tasks by status" });
+      res.status(500).json({ error: 'Failed to fetch tasks by status' });
     }
   }
 
@@ -154,14 +154,14 @@ export class TaskController {
       const { priority } = req.params;
 
       // Validate priority parameter
-      if (!["LOW", "MEDIUM", "HIGH"].includes(priority)) {
-        return res.status(400).json({ error: "Invalid priority value" });
+      if (!['LOW', 'MEDIUM', 'HIGH'].includes(priority)) {
+        return res.status(400).json({ error: 'Invalid priority value' });
       }
 
-      const tasks = await taskService.getTasksByPriority(userId, priority as "LOW" | "MEDIUM" | "HIGH");
+      const tasks = await taskService.getTasksByPriority(userId, priority as 'LOW' | 'MEDIUM' | 'HIGH');
       res.status(200).json(tasks);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch tasks by priority" });
+      res.status(500).json({ error: 'Failed to fetch tasks by priority' });
     }
   }
 
@@ -179,16 +179,16 @@ export class TaskController {
 
       res.status(200).json({
         message: result.message,
-        completed: result.completed
+        completed: result.completed,
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ 
-          error: "Validation failed", 
-          details: error.issues 
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: error.issues,
         });
       }
-      res.status(500).json({ error: "Failed to update task status" });
+      res.status(500).json({ error: 'Failed to update task status' });
     }
   }
 
@@ -199,7 +199,7 @@ export class TaskController {
       const tasks = await taskService.getTasksDueToday(userId);
       res.status(200).json(tasks);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch tasks due today" });
+      res.status(500).json({ error: 'Failed to fetch tasks due today' });
     }
   }
 
@@ -210,7 +210,7 @@ export class TaskController {
       const tasks = await taskService.getOverdueTasks(userId);
       res.status(200).json(tasks);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch overdue tasks" });
+      res.status(500).json({ error: 'Failed to fetch overdue tasks' });
     }
   }
 }

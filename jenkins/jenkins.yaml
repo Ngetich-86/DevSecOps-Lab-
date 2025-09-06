@@ -1,0 +1,89 @@
+jenkins:
+  systemMessage: "DevSecOps TaskManager CI/CD Pipeline"
+  numExecutors: 2
+  scmCheckoutRetryCount: 3
+  mode: NORMAL
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "admin"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  remotingSecurity:
+    enabled: true
+  agentProtocols:
+    - "JNLP4-connect"
+    - "Ping"
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: "NODE_ENV"
+            value: "production"
+          - key: "DOCKER_HOST"
+            value: "unix:///var/run/docker.sock"
+
+security:
+  queueItemAuthenticator:
+    authenticators:
+      - global:
+          strategy: triggeringUsersAuthorizationStrategy
+
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+    adminAddress: "admin@taskmanager.com"
+  globalLibraries:
+    libraries:
+      - name: "shared-library"
+        defaultVersion: "main"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/your-org/jenkins-shared-library.git"
+  buildStepOperation:
+    enabled: true
+  timestamper:
+    allPipelines: true
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+  workflowLibGlobalLibraries:
+    libraries:
+      - name: "shared-library"
+        defaultVersion: "main"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/your-org/jenkins-shared-library.git"
+
+jobs:
+  - script: >
+      pipelineJob('taskmanager-pipeline') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/your-org/DevSecOps-TaskManager.git')
+                }
+                branch('main')
+              }
+            }
+            scriptPath('Jenkinsfile')
+          }
+        }
+        triggers {
+          githubPush()
+        }
+        properties {
+          pipelineTriggers {
+            triggers {
+              githubPush()
+            }
+          }
+        }
+      }

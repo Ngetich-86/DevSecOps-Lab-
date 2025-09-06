@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    environment:
+      NODE_ENV: staging
+      DATABASE_URL: postgresql://taskuser:taskpassword@postgres:5432/taskdb_staging
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: staging-jwt-secret-key
+    image: ${DOCKER_IMAGE_TAG:-devsecops-taskmanager-app:latest}
+    restart: unless-stopped
+
+  postgres:
+    environment:
+      POSTGRES_DB: taskdb_staging
+    restart: unless-stopped
+
+  redis:
+    restart: unless-stopped
+
+  prometheus:
+    restart: unless-stopped
+
+  grafana:
+    restart: unless-stopped
+
+  jenkins:
+    restart: unless-stopped

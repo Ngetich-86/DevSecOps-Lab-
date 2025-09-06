@@ -336,3 +336,6 @@ GET http://localhost:3000/metrics
 
 ### Check Prometheus targets:
 GET http://localhost:9090/targets
+
+### jenkins metrics:
+GET http://localhost:8080
