@@ -9,7 +9,10 @@
     "generate": "drizzle-kit generate",
     "migrate": "tsx src/drizzle/migrate.ts",
     "migrate:docker": "docker-compose run --rm app pnpm migrate",
-    "push": "drizzle-kit push"
+    "push": "drizzle-kit push",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "Gideon Ngetich",
