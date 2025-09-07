@@ -39,8 +39,9 @@ export const sendEmail = async (
     } else {
       return 'Email server error';
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Email sending error:', error);
-    return JSON.stringify(error.message, null, 500);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return JSON.stringify(errorMessage, null, 500);
   }
 };

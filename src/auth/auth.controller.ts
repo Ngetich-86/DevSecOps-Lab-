@@ -71,9 +71,10 @@ export const createUserController = async (req: Request, res: Response) => {
       },
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Registration error:', error);
-    return res.status(500).json({ error: error.message });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: errorMessage });
   }
 };
 
@@ -127,8 +128,9 @@ export const loginUserController = async (req: Request, res: Response) => {
         role: user.role,
       },
     });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: errorMessage });
   }
 };
 
@@ -137,8 +139,9 @@ export const getAllUsersController = async (req: Request, res: Response) => {
   try {
     const users = await getAllUsersService();
     return res.status(200).json(users);
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: errorMessage });
   }
 };
 
@@ -161,8 +164,9 @@ export const updateUserByIdController = async (req: Request, res: Response) => {
 
     await updateUserByIdService(Number(id), userData);
     return res.status(200).json({ message: 'User updated successfully' });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: errorMessage });
   }
 };
 
@@ -183,8 +187,9 @@ export const getUserByIdController = async (req: Request, res: Response) => {
       isActive: user.isActive,
       createdAt: user.createdAt,
     });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: errorMessage });
   }
 };
 
@@ -200,7 +205,8 @@ export const deactivateUserController = async (req: Request, res: Response) => {
 
     await deactivateUserService(Number(id));
     return res.status(200).json({ message: 'User deactivated successfully' });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: errorMessage });
   }
 };

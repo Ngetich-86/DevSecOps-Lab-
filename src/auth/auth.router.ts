@@ -7,7 +7,7 @@ import {
   updateUserByIdController,
   deactivateUserController,
 } from './auth.controller';
-import { adminRoleAuth, userRoleAuth, bothRoleAuth } from '../middleware/bearAuth';
+import { adminRoleAuth, bothRoleAuth } from '../middleware/bearAuth';
 
 const AuthRouter = Router();
 

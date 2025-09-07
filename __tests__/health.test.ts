@@ -6,7 +6,7 @@ describe('Health Check', () => {
     const response = await request(app)
       .get('/health')
       .expect(200);
-    
+
     expect(response.body).toHaveProperty('status', 'healthy');
     expect(response.body).toHaveProperty('timestamp');
   });
@@ -15,7 +15,7 @@ describe('Health Check', () => {
     const response = await request(app)
       .get('/')
       .expect(200);
-    
+
     expect(response.text).toBe('Hello, World!');
   });
 
@@ -23,7 +23,7 @@ describe('Health Check', () => {
     const response = await request(app)
       .get('/metrics')
       .expect(200);
-    
+
     expect(response.text).toContain('# HELP');
     expect(response.text).toContain('# TYPE');
   });

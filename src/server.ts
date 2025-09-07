@@ -8,7 +8,7 @@ import cors from 'cors';
 import AuthRouter from './auth/auth.router';
 import TasksRouter from './tasks/tasks.router';
 import CategoryRouter from './category/category.router';
-import { prometheusMiddleware, getMetrics, getMetricsContentType } from './middleware/prometheus';
+import { prometheusMiddleware, getMetrics } from './middleware/prometheus';
 import client from 'prom-client';
 
 const initilizeApp = () => {

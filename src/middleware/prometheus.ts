@@ -1,4 +1,5 @@
 import client from 'prom-client';
+import { Request, Response, NextFunction } from 'express';
 
 // Enable default metrics
 client.collectDefaultMetrics();
@@ -26,7 +27,7 @@ export const httpRequestDuration = new client.Histogram({
 });
 
 // Middleware to track requests
-export const prometheusMiddleware = (req: any, res: any, next: any) => {
+export const prometheusMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
 
   res.on('finish', () => {

@@ -1,7 +1,7 @@
 import { eq, and } from 'drizzle-orm';
 import db from '../drizzle/db';
 import { categories } from '../drizzle/schema';
-import type { TICategory, TSCategory } from '../drizzle/schema';
+import type { TICategory } from '../drizzle/schema';
 
 export class CategoryService {
   /** Create a new category for the authenticated user */

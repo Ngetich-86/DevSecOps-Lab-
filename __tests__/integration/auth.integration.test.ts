@@ -22,7 +22,7 @@ describe('Auth Integration Tests', () => {
         fullname: 'John Doe',
         email: 'john@example.com',
         password: 'password123',
-        role: 'user'
+        role: 'user',
       };
 
       const response = await request(app)
@@ -34,7 +34,7 @@ describe('Auth Integration Tests', () => {
       expect(response.body.user).toMatchObject({
         fullname: 'John Doe',
         email: 'john@example.com',
-        role: 'user'
+        role: 'user',
       });
       expect(response.body.user).toHaveProperty('id');
       expect(response.body.user).not.toHaveProperty('password');
@@ -50,7 +50,7 @@ describe('Auth Integration Tests', () => {
       const userData = {
         fullname: 'John Doe',
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
 
       // Create user first
@@ -72,7 +72,7 @@ describe('Auth Integration Tests', () => {
       const userData = {
         fullname: 'John Doe',
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
 
       await request(app)
@@ -82,10 +82,10 @@ describe('Auth Integration Tests', () => {
 
       const dbUsers = await db.select().from(users);
       const storedUser = dbUsers[0];
-      
+
       expect(storedUser.password).not.toBe('password123');
       expect(storedUser.password).toMatch(/^\$2[aby]\$\d+\$/); // bcrypt hash pattern
-      
+
       // Verify password can be compared
       const isValid = await bcrypt.compare('password123', storedUser.password);
       expect(isValid).toBe(true);
@@ -95,7 +95,7 @@ describe('Auth Integration Tests', () => {
       const invalidUserData = {
         fullname: '',
         email: 'invalid-email',
-        password: '123' // too short
+        password: '123', // too short
       };
 
       const response = await request(app)
@@ -116,14 +116,14 @@ describe('Auth Integration Tests', () => {
         email: 'john@example.com',
         password: hashedPassword,
         role: 'user',
-        isActive: true
+        isActive: true,
       });
     });
 
     it('should login successfully with valid credentials', async () => {
       const loginData = {
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
 
       const response = await request(app)
@@ -136,7 +136,7 @@ describe('Auth Integration Tests', () => {
       expect(response.body.user).toMatchObject({
         fullname: 'John Doe',
         email: 'john@example.com',
-        role: 'user'
+        role: 'user',
       });
       expect(response.body.user).toHaveProperty('user_id');
       expect(response.body.user).not.toHaveProperty('password');
@@ -148,7 +148,7 @@ describe('Auth Integration Tests', () => {
     it('should return 404 for non-existent user', async () => {
       const loginData = {
         email: 'nonexistent@example.com',
-        password: 'password123'
+        password: 'password123',
       };
 
       const response = await request(app)
@@ -162,7 +162,7 @@ describe('Auth Integration Tests', () => {
     it('should return 401 for invalid password', async () => {
       const loginData = {
         email: 'john@example.com',
-        password: 'wrongpassword'
+        password: 'wrongpassword',
       };
 
       const response = await request(app)
@@ -181,7 +181,7 @@ describe('Auth Integration Tests', () => {
 
       const loginData = {
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
 
       const response = await request(app)
@@ -204,7 +204,7 @@ describe('Auth Integration Tests', () => {
         email: 'admin@example.com',
         password: hashedPassword,
         role: 'admin',
-        isActive: true
+        isActive: true,
       });
 
       // Login to get token
@@ -212,7 +212,7 @@ describe('Auth Integration Tests', () => {
         .post('/auth/login')
         .send({
           email: 'admin@example.com',
-          password: 'admin123'
+          password: 'admin123',
         });
 
       authToken = loginResponse.body.token;
@@ -227,15 +227,15 @@ describe('Auth Integration Tests', () => {
           email: 'user1@example.com',
           password: hashedPassword,
           role: 'user',
-          isActive: true
+          isActive: true,
         },
         {
           fullname: 'User 2',
           email: 'user2@example.com',
           password: hashedPassword,
           role: 'user',
-          isActive: true
-        }
+          isActive: true,
+        },
       ]);
 
       const response = await request(app)
@@ -245,9 +245,9 @@ describe('Auth Integration Tests', () => {
 
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toBeGreaterThanOrEqual(3);
-      
+
       // Verify user data structure
-      response.body.forEach((user: any) => {
+      response.body.forEach((user: unknown) => {
         expect(user).toHaveProperty('id');
         expect(user).toHaveProperty('fullname');
         expect(user).toHaveProperty('email');

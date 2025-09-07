@@ -8,7 +8,6 @@ import jwt from 'jsonwebtoken';
 jest.mock('../../src/auth/auth.service');
 jest.mock('bcryptjs');
 jest.mock('jsonwebtoken');
-jest.mock('../../src/config/mailer');
 
 const mockAuthService = authService as jest.Mocked<typeof authService>;
 const mockBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
@@ -37,15 +36,24 @@ describe('Auth Controller - Unit Tests', () => {
         fullname: 'John Doe',
         email: 'john@example.com',
         password: 'password123',
-        role: 'user'
+        role: 'user' as const,
       };
       mockReq = { body: userData };
-      
+
       const hashedPassword = 'hashedPassword123';
-      const createdUser = { id: 1, ...userData, password: hashedPassword };
+      const createdUser = {
+        id: 1,
+        fullname: 'John Doe',
+        email: 'john@example.com',
+        password: hashedPassword,
+        role: 'user' as const,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: null,
+      };
 
       mockBcrypt.hash.mockResolvedValue(hashedPassword as never);
-      mockAuthService.getUserByEmailService.mockResolvedValue(null);
+      mockAuthService.getUserByEmailService.mockResolvedValue(undefined);
       mockAuthService.createUserService.mockResolvedValue(createdUser);
 
       // Act
@@ -57,7 +65,7 @@ describe('Auth Controller - Unit Tests', () => {
       expect(mockAuthService.createUserService).toHaveBeenCalledWith({
         ...userData,
         password: hashedPassword,
-        isActive: true
+        isActive: true,
       });
       expect(mockStatus).toHaveBeenCalledWith(201);
       expect(mockJson).toHaveBeenCalledWith({
@@ -66,8 +74,8 @@ describe('Auth Controller - Unit Tests', () => {
           id: 1,
           fullname: 'John Doe',
           email: 'john@example.com',
-          role: 'user'
-        }
+          role: 'user',
+        },
       });
     });
 
@@ -76,11 +84,20 @@ describe('Auth Controller - Unit Tests', () => {
       const userData = {
         fullname: 'John Doe',
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
       mockReq = { body: userData };
-      
-      const existingUser = { id: 1, email: 'john@example.com' };
+
+      const existingUser = {
+        id: 1,
+        email: 'john@example.com',
+        fullname: 'John Doe',
+        password: 'hashedPassword',
+        role: 'user' as const,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: null,
+      };
       mockAuthService.getUserByEmailService.mockResolvedValue(existingUser);
 
       // Act
@@ -97,10 +114,10 @@ describe('Auth Controller - Unit Tests', () => {
       const userData = {
         fullname: 'John Doe',
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
       mockReq = { body: userData };
-      
+
       mockAuthService.getUserByEmailService.mockRejectedValue(new Error('Database error'));
 
       // Act
@@ -117,17 +134,19 @@ describe('Auth Controller - Unit Tests', () => {
       // Arrange
       const loginData = {
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
       mockReq = { body: loginData };
-      
+
       const user = {
         id: 1,
         email: 'john@example.com',
         password: 'hashedPassword123',
         fullname: 'John Doe',
-        role: 'user',
-        isActive: true
+        role: 'user' as const,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: null,
       };
       const token = 'jwt-token-123';
 
@@ -153,8 +172,8 @@ describe('Auth Controller - Unit Tests', () => {
           user_id: 1,
           fullname: 'John Doe',
           email: 'john@example.com',
-          role: 'user'
-        }
+          role: 'user',
+        },
       });
     });
 
@@ -162,11 +181,11 @@ describe('Auth Controller - Unit Tests', () => {
       // Arrange
       const loginData = {
         email: 'nonexistent@example.com',
-        password: 'password123'
+        password: 'password123',
       };
       mockReq = { body: loginData };
-      
-      mockAuthService.userLoginService.mockResolvedValue(null);
+
+      mockAuthService.userLoginService.mockResolvedValue(undefined);
 
       // Act
       await loginUserController(mockReq as Request, mockRes as Response);
@@ -180,17 +199,19 @@ describe('Auth Controller - Unit Tests', () => {
       // Arrange
       const loginData = {
         email: 'john@example.com',
-        password: 'wrongpassword'
+        password: 'wrongpassword',
       };
       mockReq = { body: loginData };
-      
+
       const user = {
         id: 1,
         email: 'john@example.com',
         password: 'hashedPassword123',
         fullname: 'John Doe',
-        role: 'user',
-        isActive: true
+        role: 'user' as const,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: null,
       };
 
       mockAuthService.userLoginService.mockResolvedValue(user);
@@ -208,17 +229,19 @@ describe('Auth Controller - Unit Tests', () => {
       // Arrange
       const loginData = {
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       };
       mockReq = { body: loginData };
-      
+
       const user = {
         id: 1,
         email: 'john@example.com',
         password: 'hashedPassword123',
         fullname: 'John Doe',
-        role: 'user',
-        isActive: false
+        role: 'user' as const,
+        isActive: false,
+        createdAt: new Date(),
+        updatedAt: null,
       };
 
       mockAuthService.userLoginService.mockResolvedValue(user);

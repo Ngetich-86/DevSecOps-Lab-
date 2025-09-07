@@ -11,7 +11,7 @@ export const rateLimiterMiddleware = async (req: Request, res: Response, next: N
     await rateLimiter.consume(req.ip || 'unknown');
     console.log(`Rate limit check passed💚 for IP: ${req.ip}`);
     next();
-  } catch (error) {
+  } catch {
     res.status(429).json({ error: 'Too many requests, please try again later.' });
   }
 };

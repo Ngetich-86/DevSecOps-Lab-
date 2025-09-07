@@ -31,7 +31,7 @@ export const checkRoles = (requiredRole: 'admin' | 'user' | 'both') => {
 
     try {
       const decoded = jwt.verify(token, secret) as JwtPayload;
-      (req as any).user = decoded; // Attach user to request object
+      (req as Request & { user: JwtPayload }).user = decoded; // Attach user to request object
 
       // Check if user is active (if this info is in your JWT)
       // If not, you might need to query the database here
@@ -75,7 +75,7 @@ export const userRoleAuth = checkRoles('user');
 export const bothRoleAuth = checkRoles('both');
 
 // Optional: Enhanced role checker with permissions
-export const checkPermissions = (requiredPermissions: string[]) => {
+export const checkPermissions = (_requiredPermissions: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     // Implement permission checking logic here
     // You might want to query the database for user permissions

@@ -23,7 +23,7 @@ describe('Tasks Integration Tests', () => {
       email: 'john@example.com',
       password: hashedPassword,
       role: 'user',
-      isActive: true
+      isActive: true,
     }).returning();
 
     userId = user.id;
@@ -33,7 +33,7 @@ describe('Tasks Integration Tests', () => {
       .post('/auth/login')
       .send({
         email: 'john@example.com',
-        password: 'password123'
+        password: 'password123',
       });
 
     authToken = loginResponse.body.token;
@@ -43,7 +43,7 @@ describe('Tasks Integration Tests', () => {
       name: 'Work',
       description: 'Work-related tasks',
       color: '#FF5733',
-      userId: userId
+      userId: userId,
     }).returning();
 
     categoryId = category.id;
@@ -64,7 +64,7 @@ describe('Tasks Integration Tests', () => {
         status: 'todo',
         dueDate: '2024-12-31T23:59:59.000Z',
         priority: 'HIGH',
-        categoryId: categoryId
+        categoryId: categoryId,
       };
 
       const response = await request(app)
@@ -81,7 +81,7 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         categoryId: categoryId,
         userId: userId,
-        completed: false
+        completed: false,
       });
       expect(response.body.task).toHaveProperty('id');
       expect(response.body.task).toHaveProperty('createdAt');
@@ -96,7 +96,7 @@ describe('Tasks Integration Tests', () => {
       const invalidTaskData = {
         title: '', // Invalid: empty title
         status: 'invalid-status',
-        priority: 'INVALID'
+        priority: 'INVALID',
       };
 
       const response = await request(app)
@@ -113,7 +113,7 @@ describe('Tasks Integration Tests', () => {
       const taskData = {
         title: 'Test Task',
         status: 'todo',
-        priority: 'MEDIUM'
+        priority: 'MEDIUM',
       };
 
       const response = await request(app)
@@ -129,7 +129,7 @@ describe('Tasks Integration Tests', () => {
         title: 'Test Task',
         status: 'todo',
         priority: 'MEDIUM',
-        categoryId: 999 // Non-existent category
+        categoryId: 999, // Non-existent category
       };
 
       const response = await request(app)
@@ -153,7 +153,8 @@ describe('Tasks Integration Tests', () => {
           priority: 'HIGH',
           userId: userId,
           categoryId: categoryId,
-          completed: false
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
         },
         {
           title: 'Task 2',
@@ -162,7 +163,8 @@ describe('Tasks Integration Tests', () => {
           priority: 'MEDIUM',
           userId: userId,
           categoryId: categoryId,
-          completed: false
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
         },
         {
           title: 'Task 3',
@@ -171,8 +173,9 @@ describe('Tasks Integration Tests', () => {
           priority: 'LOW',
           userId: userId,
           categoryId: categoryId,
-          completed: true
-        }
+          completed: true,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
+        },
       ]);
     });
 
@@ -186,7 +189,7 @@ describe('Tasks Integration Tests', () => {
       expect(response.body).toHaveLength(3);
 
       // Verify task structure
-      response.body.forEach((task: any) => {
+      response.body.forEach((task: unknown) => {
         expect(task).toHaveProperty('id');
         expect(task).toHaveProperty('title');
         expect(task).toHaveProperty('status');
@@ -204,7 +207,7 @@ describe('Tasks Integration Tests', () => {
         email: 'jane@example.com',
         password: hashedPassword,
         role: 'user',
-        isActive: true
+        isActive: true,
       }).returning();
 
       await db.insert(tasks).values({
@@ -213,7 +216,8 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         userId: otherUser.id,
         categoryId: categoryId,
-        completed: false
+        completed: false,
+        dueDate: new Date('2024-12-31T23:59:59.000Z'),
       });
 
       const response = await request(app)
@@ -222,8 +226,8 @@ describe('Tasks Integration Tests', () => {
         .expect(200);
 
       expect(response.body).toHaveLength(3);
-      response.body.forEach((task: any) => {
-        expect(task.userId).toBe(userId);
+      response.body.forEach((task: unknown) => {
+        expect((task as any).userId).toBe(userId);
       });
     });
   });
@@ -239,7 +243,8 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         userId: userId,
         categoryId: categoryId,
-        completed: false
+        completed: false,
+        dueDate: new Date('2024-12-31T23:59:59.000Z'),
       }).returning();
 
       taskId = task.id;
@@ -259,7 +264,7 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         userId: userId,
         categoryId: categoryId,
-        completed: false
+        completed: false,
       });
     });
 
@@ -280,7 +285,7 @@ describe('Tasks Integration Tests', () => {
         email: 'jane@example.com',
         password: hashedPassword,
         role: 'user',
-        isActive: true
+        isActive: true,
       }).returning();
 
       const [otherTask] = await db.insert(tasks).values({
@@ -289,7 +294,8 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         userId: otherUser.id,
         categoryId: categoryId,
-        completed: false
+        completed: false,
+        dueDate: new Date('2024-12-31T23:59:59.000Z'),
       }).returning();
 
       const response = await request(app)
@@ -312,7 +318,8 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         userId: userId,
         categoryId: categoryId,
-        completed: false
+        completed: false,
+        dueDate: new Date('2024-12-31T23:59:59.000Z'),
       }).returning();
 
       taskId = task.id;
@@ -322,7 +329,7 @@ describe('Tasks Integration Tests', () => {
       const updateData = {
         title: 'Updated Task',
         status: 'in-progress',
-        priority: 'MEDIUM'
+        priority: 'MEDIUM',
       };
 
       const response = await request(app)
@@ -342,7 +349,7 @@ describe('Tasks Integration Tests', () => {
 
     it('should return 404 for non-existent task', async () => {
       const updateData = {
-        title: 'Updated Task'
+        title: 'Updated Task',
       };
 
       const response = await request(app)
@@ -365,7 +372,8 @@ describe('Tasks Integration Tests', () => {
         priority: 'HIGH',
         userId: userId,
         categoryId: categoryId,
-        completed: false
+        completed: false,
+        dueDate: new Date('2024-12-31T23:59:59.000Z'),
       }).returning();
 
       taskId = task.id;
@@ -403,7 +411,8 @@ describe('Tasks Integration Tests', () => {
           priority: 'HIGH',
           userId: userId,
           categoryId: categoryId,
-          completed: false
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
         },
         {
           title: 'Todo Task 2',
@@ -411,7 +420,8 @@ describe('Tasks Integration Tests', () => {
           priority: 'MEDIUM',
           userId: userId,
           categoryId: categoryId,
-          completed: false
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
         },
         {
           title: 'In Progress Task',
@@ -419,8 +429,9 @@ describe('Tasks Integration Tests', () => {
           priority: 'LOW',
           userId: userId,
           categoryId: categoryId,
-          completed: false
-        }
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
+        },
       ]);
     });
 
@@ -432,9 +443,9 @@ describe('Tasks Integration Tests', () => {
 
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body).toHaveLength(2);
-      response.body.forEach((task: any) => {
-        expect(task.status).toBe('todo');
-        expect(task.userId).toBe(userId);
+      response.body.forEach((task: unknown) => {
+        expect((task as any).status).toBe('todo');
+        expect((task as any).userId).toBe(userId);
       });
     });
 
@@ -458,7 +469,8 @@ describe('Tasks Integration Tests', () => {
           priority: 'HIGH',
           userId: userId,
           categoryId: categoryId,
-          completed: false
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
         },
         {
           title: 'High Priority Task 2',
@@ -466,7 +478,8 @@ describe('Tasks Integration Tests', () => {
           priority: 'HIGH',
           userId: userId,
           categoryId: categoryId,
-          completed: false
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
         },
         {
           title: 'Medium Priority Task',
@@ -474,8 +487,9 @@ describe('Tasks Integration Tests', () => {
           priority: 'MEDIUM',
           userId: userId,
           categoryId: categoryId,
-          completed: false
-        }
+          completed: false,
+          dueDate: new Date('2024-12-31T23:59:59.000Z'),
+        },
       ]);
     });
 
@@ -487,9 +501,9 @@ describe('Tasks Integration Tests', () => {
 
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body).toHaveLength(2);
-      response.body.forEach((task: any) => {
-        expect(task.priority).toBe('HIGH');
-        expect(task.userId).toBe(userId);
+      response.body.forEach((task: unknown) => {
+        expect((task as any).priority).toBe('HIGH');
+        expect((task as any).userId).toBe(userId);
       });
     });
 

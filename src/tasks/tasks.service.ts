@@ -1,6 +1,6 @@
-import { and, eq, gt, lt, gte, lte, sql, desc, asc } from 'drizzle-orm';
+import { and, eq, lt, gte, lte, asc } from 'drizzle-orm';
 import db from '../drizzle/db';
-import { tasks, categories } from '../drizzle/schema';
+import { tasks } from '../drizzle/schema';
 import type { Task } from '../drizzle/schema';
 
 export class TaskService {

@@ -36,7 +36,7 @@ export const verifyUserService = async (email: string) => {
   return 'User verified successfully';
 };
 
-export const userLoginService = async (email: string, password: string) => {
+export const userLoginService = async (email: string, _password: string) => {
   return await db.query.users.findFirst({
     columns: {
       id: true,
