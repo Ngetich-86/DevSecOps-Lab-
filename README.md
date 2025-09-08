@@ -1,7 +1,7 @@
 # DevSecOps-TaskManager: Secure CI/CD Pipeline with Jenkins + GitHub + SonarQube + Prometheus + Grafana (Azure)
 
 ## Overview
-**DevSecOps-TaskManager** is a learning project that demonstrates a secure, automated CI/CD pipeline for a **Node.js (Hono.js) Task Manager API**.  
+**DevSecOps-TaskManager** is a learning project that demonstrates a secure, automated CI/CD pipeline for a **Node.js (Express) Task Manager API**.  
 The pipeline integrates **Jenkins**, **GitHub**, **SonarQube**, **Prometheus**, and **Grafana** to enforce **security**, **quality**, and **observability** in every code delivery process, deployed on **Azure**.
 
 ---
@@ -44,3 +44,6 @@ This setup includes:
 git clone https://github.com/your-username/DevSecOps-TaskManager.git
 cd DevSecOps-TaskManager
 # Configure Jenkins credentials for GitHub, SonarQube, and Azure
+
+##### GitHub webhook for Jenkins test:
+http://<jenkins-server>/github-webhook/
