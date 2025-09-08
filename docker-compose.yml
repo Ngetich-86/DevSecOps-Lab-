@@ -119,23 +119,37 @@ services:
       - app-network
     restart: unless-stopped
 
+  # SonarQube (disabled to save resources)
+  # sonarqube:
+  #   image: sonarqube:10.6-community
+  #   container_name: taskmanager-sonarqube
+  #   ports:
+  #     - "9000:9000"
+  #   environment:
+  #     SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+  #   volumes:
+  #     - sonarqube_data:/opt/sonarqube/data
+  #     - sonarqube_extensions:/opt/sonarqube/extensions
+  #   networks:
+  #     - app-network
+  #   restart: unless-stopped
+
   # Jenkins (CI/CD)
   jenkins:
-    image: jenkins/jenkins:2.426.3-lts
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
     container_name: taskmanager-jenkins
     ports:
       - "8080:8080"
       - "50000:50000"
     environment:
       JENKINS_OPTS: "--httpPort=8080"
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
-      JENKINS_ADMIN_ID: admin
-      JENKINS_ADMIN_PASSWORD: admin
+      CASC_JENKINS_CONFIG: /var/jenkins_home/casc_configs/jenkins.yaml
     volumes:
       - jenkins_data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
-      - ./jenkins/plugins.txt:/usr/share/jenkins/ref/plugins.txt
       - ./jenkins/jenkins.yaml:/var/jenkins_home/casc_configs/jenkins.yaml
     user: root
     networks:
@@ -147,6 +161,8 @@ volumes:
   grafana_data:
   prometheus_data:
   jenkins_data:
+  # sonarqube_data:
+  # sonarqube_extensions:
 
 networks:
   app-network:

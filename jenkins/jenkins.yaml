@@ -34,7 +34,7 @@ security:
 unclassified:
   location:
     url: "http://localhost:8080/"
-    adminAddress: "admin@taskmanager.com"
+    adminAddress: "gideonkngetich86@gmail.com"
   globalLibraries:
     libraries:
       - name: "shared-library"
@@ -68,7 +68,7 @@ jobs:
             scm {
               git {
                 remote {
-                  url('https://github.com/your-org/DevSecOps-TaskManager.git')
+                  url('https://github.com/Ngetich-86/DevSecOps-Lab-')
                 }
                 branch('main')
               }

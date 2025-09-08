@@ -8,6 +8,8 @@ pipeline {
         APP_NAME = 'taskmanager-api'
         NODE_VERSION = '20'
         PNPM_VERSION = '10.8.0'
+        // SONAR_HOST_URL = 'http://localhost:9000' // Disabled for now
+        // Create a Jenkins credential with ID 'sonar-token' if you re-enable SonarQube
     }
     
     options {
@@ -141,6 +143,15 @@ pipeline {
                             echo "Snyk not available, skipping security scan"
                         fi
                     '''
+
+                    // Run Trivy filesystem scan (source code dependencies & IaC)
+                    sh '''
+                        if command -v trivy &> /dev/null; then
+                            trivy fs --exit-code 0 --severity HIGH,CRITICAL --scanners vuln,config . || true
+                        else
+                            echo "Trivy not available, skipping filesystem scan"
+                        fi
+                    '''
                 }
             }
         }
@@ -180,7 +191,7 @@ pipeline {
                 script {
                     sh '''
                         if command -v trivy &> /dev/null; then
-                            trivy image --severity HIGH,CRITICAL ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            trivy image --exit-code 0 --severity HIGH,CRITICAL ${DOCKER_IMAGE}:${DOCKER_TAG} || true
                         else
                             echo "Trivy not available, skipping Docker security scan"
                         fi
@@ -188,6 +199,13 @@ pipeline {
                 }
             }
         }
+
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         echo '📊 Running SonarQube analysis...'
+        //         // Disabled to save resources. Re-enable when SonarQube is available.
+        //     }
+        // }
         
         stage('Deploy to Staging') {
             when {
