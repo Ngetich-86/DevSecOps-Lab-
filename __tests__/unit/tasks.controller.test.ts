@@ -2,24 +2,26 @@ import { Request, Response } from 'express';
 import { TaskController } from '../../src/tasks/tasks.controller';
 
 // Mock the TaskService module
-const mockTaskService = {
-  getAllTasks: jest.fn(),
-  getTaskById: jest.fn(),
-  createTask: jest.fn(),
-  updateTask: jest.fn(),
-  deleteTask: jest.fn(),
-  getTasksByStatus: jest.fn(),
-  getTasksByPriority: jest.fn(),
-  toggleTaskCompletion: jest.fn(),
-  getTasksDueToday: jest.fn(),
-  getOverdueTasks: jest.fn(),
-};
-
 jest.mock('../../src/tasks/tasks.service', () => {
   return {
-    TaskService: jest.fn().mockImplementation(() => mockTaskService),
+    TaskService: jest.fn().mockImplementation(() => ({
+      getAllTasks: jest.fn(),
+      getTaskById: jest.fn(),
+      createTask: jest.fn(),
+      updateTask: jest.fn(),
+      deleteTask: jest.fn(),
+      getTasksByStatus: jest.fn(),
+      getTasksByPriority: jest.fn(),
+      toggleTaskCompletion: jest.fn(),
+      getTasksDueToday: jest.fn(),
+      getOverdueTasks: jest.fn(),
+    })),
   };
 });
+
+// Import the mocked TaskService to get access to the mock instance
+import { TaskService } from '../../src/tasks/tasks.service';
+const MockedTaskService = TaskService as jest.MockedClass<typeof TaskService>;
 
 // Define the AuthenticatedRequest interface
 interface AuthenticatedRequest extends Request {
@@ -39,11 +41,12 @@ describe('Task Controller - Unit Tests', () => {
   let mockRes: Partial<Response>;
   let mockJson: jest.Mock;
   let mockStatus: jest.Mock;
+  let mockTaskService: any;
 
   beforeEach(() => {
-    // Reset all mocks
-    Object.values(mockTaskService).forEach(mock => mock.mockReset());
-
+    // Get the mock instance
+    mockTaskService = new MockedTaskService();
+    
     taskController = new TaskController();
 
     mockJson = jest.fn();
