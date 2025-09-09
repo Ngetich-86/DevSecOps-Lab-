@@ -16,11 +16,12 @@ describe('Tasks Integration Tests', () => {
     await db.delete(categories);
     await db.delete(users);
 
-    // Create test user
+    // Create test user with unique email
     const hashedPassword = await bcrypt.hash('password123', 10);
+    const uniqueEmail = `john-${Date.now()}@example.com`;
     const [user] = await db.insert(users).values({
       fullname: 'John Doe',
-      email: 'john@example.com',
+      email: uniqueEmail,
       password: hashedPassword,
       role: 'user',
       isActive: true,
@@ -32,7 +33,7 @@ describe('Tasks Integration Tests', () => {
     const loginResponse = await request(app)
       .post('/auth/login')
       .send({
-        email: 'john@example.com',
+        email: uniqueEmail,
         password: 'password123',
       });
 
@@ -47,6 +48,13 @@ describe('Tasks Integration Tests', () => {
     }).returning();
 
     categoryId = category.id;
+  });
+
+  afterEach(async () => {
+    // Clean up after each test
+    await db.delete(tasks);
+    await db.delete(categories);
+    await db.delete(users);
   });
 
   afterAll(async () => {
@@ -274,7 +282,7 @@ describe('Tasks Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .expect(404);
 
-      expect(response.body).toHaveProperty('error', 'Task not found');
+      expect(response.body).toHaveProperty('error', 'Task not found or not owned by user');
     });
 
     it('should return 404 for task belonging to another user', async () => {
@@ -303,7 +311,7 @@ describe('Tasks Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .expect(404);
 
-      expect(response.body).toHaveProperty('error', 'Task not found');
+      expect(response.body).toHaveProperty('error', 'Task not found or not owned by user');
     });
   });
 
@@ -358,7 +366,7 @@ describe('Tasks Integration Tests', () => {
         .send(updateData)
         .expect(404);
 
-      expect(response.body).toHaveProperty('error', 'Task not found');
+      expect(response.body).toHaveProperty('error', 'Task not found or not owned by user');
     });
   });
 
@@ -398,7 +406,7 @@ describe('Tasks Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .expect(404);
 
-      expect(response.body).toHaveProperty('error', 'Task not found');
+      expect(response.body).toHaveProperty('error', 'Task not found or not owned by user');
     });
   });
 

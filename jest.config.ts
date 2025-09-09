@@ -18,4 +18,6 @@ export default {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  // Run integration tests sequentially to avoid database conflicts
+  maxWorkers: 1,
 };

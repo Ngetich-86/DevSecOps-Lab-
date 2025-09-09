@@ -11,6 +11,11 @@ describe('Auth Integration Tests', () => {
     await db.delete(users);
   });
 
+  afterEach(async () => {
+    // Clean up after each test
+    await db.delete(users);
+  });
+
   afterAll(async () => {
     // Clean up after all tests
     await db.delete(users);
@@ -103,7 +108,7 @@ describe('Auth Integration Tests', () => {
         .send(invalidUserData)
         .expect(400);
 
-      expect(response.body).toHaveProperty('error');
+      expect(response.body).toHaveProperty('message');
     });
   });
 
@@ -261,7 +266,7 @@ describe('Auth Integration Tests', () => {
         .get('/auth/users')
         .expect(401);
 
-      expect(response.body).toHaveProperty('error');
+      expect(response.body).toHaveProperty('message');
     });
 
     it('should return 401 with invalid token', async () => {
@@ -270,7 +275,7 @@ describe('Auth Integration Tests', () => {
         .set('Authorization', 'Bearer invalid-token')
         .expect(401);
 
-      expect(response.body).toHaveProperty('error');
+      expect(response.body).toHaveProperty('message');
     });
   });
 });

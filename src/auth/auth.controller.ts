@@ -12,19 +12,25 @@ import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../config/mailer';
+import { createUserSchema, loginSchema } from '../validators/user.validator';
+import { z } from 'zod';
 
 // Create a user controller
 export const createUserController = async (req: Request, res: Response) => {
   try {
     console.log('Registration request received:', { body: req.body });
 
-    const user = req.body;
-    const password = user.password;
-
+    // Validate input
+    const validatedData = createUserSchema.parse(req.body);
+    
     console.log('Hashing password...');
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
-    user.isActive = true; // Set user as active by default
+    const hashedPassword = await bcrypt.hash(validatedData.password, 10);
+    
+    const user = {
+      ...validatedData,
+      password: hashedPassword,
+      isActive: true, // Set user as active by default
+    };
 
     console.log('Checking if user already exists...');
     const existingUser = await getUserByEmailService(user.email);
@@ -73,6 +79,14 @@ export const createUserController = async (req: Request, res: Response) => {
 
   } catch (error: unknown) {
     console.error('Registration error:', error);
+    
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: error.issues,
+      });
+    }
+    
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return res.status(500).json({ error: errorMessage });
   }
@@ -81,7 +95,8 @@ export const createUserController = async (req: Request, res: Response) => {
 // Login user controller
 export const loginUserController = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    // Validate input
+    const { email, password } = loginSchema.parse(req.body);
 
     // Check if the user exists
     const user = await userLoginService(email, password);
@@ -129,6 +144,13 @@ export const loginUserController = async (req: Request, res: Response) => {
       },
     });
   } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: error.issues,
+      });
+    }
+    
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return res.status(500).json({ error: errorMessage });
   }

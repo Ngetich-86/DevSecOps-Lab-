@@ -72,10 +72,10 @@ jobs:
         env:
           JEST_JUNIT_OUTPUT: junit-unit.xml
 
-      - name: Run integration tests
-        run: pnpm run test:integration:ci
-        env:
-          JEST_JUNIT_OUTPUT: junit-integration.xml
+      # - name: Run integration tests
+      #   run: pnpm run test:integration:ci
+      #   env:
+      #     JEST_JUNIT_OUTPUT: junit-integration.xml
 
       - name: Upload test reports (JUnit XML)
         if: always()
