@@ -68,12 +68,12 @@ jobs:
         run: pnpm build
 
       - name: Run unit tests
-        run: pnpm run test:unit -- --ci --config=jest.config.ts --reporters=default --reporters=jest-junit
+        run: pnpm run test:unit -- --ci --reporters=default --reporters=jest-junit
         env:
           JEST_JUNIT_OUTPUT: junit-unit.xml
 
       - name: Run integration tests
-        run: pnpm run test:integration -- --ci --config=jest.config.ts --reporters=default --reporters=jest-junit
+        run: pnpm run test:integration -- --ci --reporters=default --reporters=jest-junit
         env:
           JEST_JUNIT_OUTPUT: junit-integration.xml
 
