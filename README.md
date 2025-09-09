@@ -1,49 +1,200 @@
-# DevSecOps-TaskManager: Secure CI/CD Pipeline with Jenkins + GitHub + SonarQube + Prometheus + Grafana (Azure)
+# DevSecOps-TaskManager: DevOps Lifecycle Implementation with Security Integration
 
 ## Overview
-**DevSecOps-TaskManager** is a learning project that demonstrates a secure, automated CI/CD pipeline for a **Node.js (Express) Task Manager API**.  
-The pipeline integrates **Jenkins**, **GitHub**, **SonarQube**, **Prometheus**, and **Grafana** to enforce **security**, **quality**, and **observability** in every code delivery process, deployed on **Azure**.
+**DevSecOps-TaskManager** is a comprehensive learning project that demonstrates the complete **DevOps lifecycle** through a **Node.js (Express) Task Manager API**. This project showcases how to implement DevOps practices while integrating security (DevSecOps) across all stages of the software development lifecycle.
+
+## 🚀 DevOps Lifecycle Implementation
+
+![DevOps Lifecycle](Readme-images/devops-lifecycle-diagram.png)
+
+This project implements the complete DevOps lifecycle:
+
+### **Plan** 📋
+- **Requirements gathering** and **project planning**
+- **Architecture design** with security considerations
+- **Technology stack selection** (Node.js, Express, PostgreSQL, Docker)
+
+### **Code** 💻
+- **Version control** with GitHub
+- **Code quality standards** with ESLint
+- **Security-first coding practices**
+- **Documentation** and **code comments**
+
+### **Build** 🔨
+- **Automated builds** with GitHub Actions
+- **Docker containerization** for consistent environments
+- **Dependency management** with pnpm
+- **TypeScript compilation** and **optimization**
+
+### **Test** 🧪
+- **Unit testing** with Jest (22/22 tests passing)
+- **Integration testing** with real database connections
+- **Code coverage** reporting
+- **Security testing** with Trivy vulnerability scanning
+
+### **Release** 📦
+- **Automated versioning** and **tagging**
+- **Artifact generation** and **storage**
+- **Quality gates** with SonarQube
+- **Security scanning** before release
+
+### **Deploy** 🚀
+- **Container orchestration** with Docker Compose
+- **Azure deployment** strategies
+- **Environment configuration** management
+- **Rollback capabilities**
+
+### **Operate** ⚙️
+- **Application monitoring** with Prometheus
+- **Log aggregation** and **analysis**
+- **Performance monitoring**
+- **Health checks** and **alerts**
+
+### **Monitor** 📊
+- **Real-time dashboards** with Grafana
+- **Metrics collection** and **visualization**
+- **Alert management**
+- **Continuous feedback loops**
 
 ---
 
-## What This Setup Achieves
-- **Secure CI/CD pipeline** with GitHub + Jenkins
-- **Static Application Security Testing (SAST)** using SonarQube
-- **Quality Gate enforcement** to block low-quality code
-- **Container vulnerability scanning** with Trivy
-- **GitHub secrets** and **Jenkins credential management**
-- **Prometheus & Grafana monitoring** for Jenkins and the application
-- **Docker-based builds** for consistent, isolated environments
-- **Deployment to Azure** Virtual Machines or Container Instances
+## 🔒 DevSecOps Integration
+
+While implementing the DevOps lifecycle, this project also demonstrates **DevSecOps** principles:
+
+- **Security in Planning**: Threat modeling and security requirements
+- **Secure Coding**: Input validation, authentication, and authorization
+- **Secure Building**: Container security scanning with Trivy
+- **Security Testing**: SAST with SonarQube, vulnerability scanning
+- **Secure Deployment**: Secrets management, secure configurations
+- **Security Monitoring**: Security metrics and incident response
 
 ---
 
-## Architecture Diagram
-This setup includes:
-- **Jenkins master** with Docker agents
-- **SonarQube** connected to Jenkins for code analysis
-- **GitHub** as the source code repository
-- **Prometheus** scraping Jenkins and app metrics
-- **Grafana** visualizing CI/CD and application performance metrics
-- **Azure** hosting the deployed Task Manager API
+## 🛠️ Technology Stack
+
+### **Core Application**
+- **Backend**: Node.js with Express.js
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: JWT with bcrypt
+- **Validation**: Zod schemas
+- **Testing**: Jest with Supertest
+
+### **DevOps Tools**
+- **CI/CD**: GitHub Actions + Jenkins
+- **Containerization**: Docker + Docker Compose
+- **Code Quality**: ESLint + SonarQube
+- **Security**: Trivy vulnerability scanner
+- **Monitoring**: Prometheus + Grafana
+- **Cloud**: Azure deployment
+
+### **Development Tools**
+- **Package Manager**: pnpm
+- **TypeScript**: Type safety and modern JavaScript
+- **Database Migrations**: Drizzle Kit
+- **API Documentation**: Built-in with Express
 
 ---
 
-## ⚙ Step-by-Step Setup
+## 📌 Observations & Learnings
 
-### 1. Prerequisites
-- Docker & Docker Compose installed
-- GitHub repository with Task Manager source code
-- Jenkins, SonarQube, Prometheus, and Grafana Docker images
-- Azure VM or Azure Container Instance
+When starting this project, I approached it mainly from a **DevSecOps mindset**, focusing heavily on security.  
+However, as I progressed, I realized that:
+
+- **DevOps is a full lifecycle** (plan → code → build → test → release → deploy → operate → monitor), not just CI/CD pipelines.  
+- **DevSecOps extends DevOps** by embedding security across all stages, but DevOps itself also emphasizes collaboration, automation, and monitoring.  
+- Automation is important, but so is **team culture** and **continuous feedback loops**.  
+- Observability (logs, monitoring, alerts) is just as essential as testing and security.  
+- CI/CD pipelines are the backbone — in this project, I implemented CI (linting, migrations, tests, coverage reports) and can extend into CD (deployment).  
+
+This project is therefore both a **DevOps learning journey** and a **DevSecOps practice project**, combining security awareness with the broader DevOps lifecycle.
+
+### **Key DevOps Principles Demonstrated:**
+- **Collaboration**: Cross-functional team practices
+- **Automation**: Automated testing, building, and deployment
+- **Continuous Integration**: Automated code quality checks
+- **Continuous Delivery**: Ready-to-deploy artifacts
+- **Monitoring**: Application and infrastructure observability
+- **Feedback Loops**: Continuous improvement based on metrics
+
+### **DevSecOps Security Integration:**
+- **Shift Left Security**: Security considerations from the planning phase
+- **Security as Code**: Infrastructure and configuration as code
+- **Automated Security Testing**: SAST, vulnerability scanning
+- **Security Monitoring**: Real-time security metrics and alerts
 
 ---
 
-### 2. Clone Repo & Configure Credentials
+## ⚙ DevOps Lifecycle Setup Guide
+
+### **Phase 1: Plan & Code** 📋💻
 ```bash
+# Clone the repository
 git clone https://github.com/your-username/DevSecOps-TaskManager.git
 cd DevSecOps-TaskManager
-# Configure Jenkins credentials for GitHub, SonarQube, and Azure
 
-##### GitHub webhook for Jenkins test:
-http://<jenkins-server>/github-webhook/
+# Review the architecture and requirements
+# - Node.js Express API
+# - PostgreSQL database
+# - Docker containerization
+# - Security considerations
+```
+
+### **Phase 2: Build & Test** 🔨🧪
+```bash
+# Install dependencies
+pnpm install
+
+# Run the development environment
+docker-compose up -d
+
+# Execute tests
+pnpm run test:unit        # Unit tests (22/22 passing)
+pnpm run test:integration # Integration tests
+pnpm run lint            # Code quality checks
+```
+
+### **Phase 3: Release & Deploy** 📦🚀
+```bash
+# Build Docker images
+docker build -t taskmanager-api .
+
+# Run security scans
+trivy image taskmanager-api
+
+# Deploy to Azure
+# Configure Azure Container Instances or VM deployment
+```
+
+### **Phase 4: Operate & Monitor** ⚙️📊
+```bash
+# Start monitoring stack
+docker-compose -f docker-compose.prod.yml up -d
+
+# Access monitoring dashboards
+# - Grafana: http://localhost:3000
+# - Prometheus: http://localhost:9090
+# - Application: http://localhost:5000
+```
+
+---
+
+## 🛠️ DevOps Tools Configuration
+
+### **CI/CD Pipeline Setup**
+```bash
+# GitHub Actions (already configured)
+# - Automated testing on push/PR
+# - Code quality checks
+# - Security scanning
+
+# Jenkins Integration
+# - Webhook URL: http://<jenkins-server>/github-webhook/
+# - Configure credentials for GitHub, SonarQube, and Azure
+```
+
+### **Monitoring & Observability**
+- **Prometheus**: Metrics collection and storage
+- **Grafana**: Visualization and alerting
+- **Application Metrics**: Custom business metrics
+- **Infrastructure Monitoring**: System and container metrics
