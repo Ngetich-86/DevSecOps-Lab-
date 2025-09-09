@@ -19,14 +19,17 @@ interface AuthenticatedRequest extends Request {
   };
 }
 
-const taskService = new TaskService();
-
 export class TaskController {
+  private taskService: TaskService;
+
+  constructor(taskService?: TaskService) {
+    this.taskService = taskService || new TaskService();
+  }
   /** List all tasks for the authenticated user */
   async getAllTasks(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id; // Use user_id from JWT payload
-      const tasks = await taskService.getAllTasks(userId);
+      const tasks = await this.taskService.getAllTasks(userId);
       res.status(200).json(tasks);
     } catch {
       res.status(500).json({ error: 'Failed to fetch tasks' });
@@ -39,7 +42,7 @@ export class TaskController {
       const userId = req.user.user_id;
       const taskId = parseInt(req.params.id);
 
-      const task = await taskService.getTaskById(taskId, userId);
+      const task = await this.taskService.getTaskById(taskId, userId);
       if (!task) {
         return res.status(404).json({ error: 'Task not found' });
       }
@@ -64,7 +67,7 @@ export class TaskController {
         description: input.description || null, // Convert undefined to null
       };
 
-      const result = await taskService.createTask(taskData);
+      const result = await this.taskService.createTask(taskData);
       if (!result.success) {
         return res.status(400).json({ error: result.message });
       }
@@ -99,7 +102,7 @@ export class TaskController {
         updates.description = input.description || null; // Convert undefined to null
       }
 
-      const result = await taskService.updateTask(taskId, userId, updates);
+      const result = await this.taskService.updateTask(taskId, userId, updates);
       if (!result.success) {
         return res.status(404).json({ error: result.message });
       }
@@ -122,7 +125,7 @@ export class TaskController {
       const userId = req.user.user_id;
       const taskId = parseInt(req.params.id);
 
-      const result = await taskService.deleteTask(taskId, userId);
+      const result = await this.taskService.deleteTask(taskId, userId);
       if (!result.success) {
         return res.status(404).json({ error: result.message });
       }
@@ -139,7 +142,7 @@ export class TaskController {
       const userId = req.user.user_id;
       const { status } = req.params;
 
-      const tasks = await taskService.getTasksByStatus(userId, status);
+      const tasks = await this.taskService.getTasksByStatus(userId, status);
       res.status(200).json(tasks);
     } catch {
       res.status(500).json({ error: 'Failed to fetch tasks by status' });
@@ -157,7 +160,7 @@ export class TaskController {
         return res.status(400).json({ error: 'Invalid priority value' });
       }
 
-      const tasks = await taskService.getTasksByPriority(userId, priority as 'LOW' | 'MEDIUM' | 'HIGH');
+      const tasks = await this.taskService.getTasksByPriority(userId, priority as 'LOW' | 'MEDIUM' | 'HIGH');
       res.status(200).json(tasks);
     } catch {
       res.status(500).json({ error: 'Failed to fetch tasks by priority' });
@@ -171,7 +174,7 @@ export class TaskController {
       const taskId = parseInt(req.params.id);
       const { completed } = taskCompletionSchema.parse(req.body);
 
-      const result = await taskService.toggleTaskCompletion(taskId, userId, completed);
+      const result = await this.taskService.toggleTaskCompletion(taskId, userId, completed);
       if (!result.success) {
         return res.status(404).json({ error: result.message });
       }
@@ -195,7 +198,7 @@ export class TaskController {
   async getTasksDueToday(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const tasks = await taskService.getTasksDueToday(userId);
+      const tasks = await this.taskService.getTasksDueToday(userId);
       res.status(200).json(tasks);
     } catch {
       res.status(500).json({ error: 'Failed to fetch tasks due today' });
@@ -206,7 +209,7 @@ export class TaskController {
   async getOverdueTasks(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.user.user_id;
-      const tasks = await taskService.getOverdueTasks(userId);
+      const tasks = await this.taskService.getOverdueTasks(userId);
       res.status(200).json(tasks);
     } catch {
       res.status(500).json({ error: 'Failed to fetch overdue tasks' });

@@ -1,27 +1,28 @@
 import { Request, Response } from 'express';
-import { TaskController } from '../../src/tasks/tasks.controller';
 
-// Mock the TaskService module
+// Create mock functions
+const mockTaskService = {
+  getAllTasks: jest.fn(),
+  getTaskById: jest.fn(),
+  createTask: jest.fn(),
+  updateTask: jest.fn(),
+  deleteTask: jest.fn(),
+  getTasksByStatus: jest.fn(),
+  getTasksByPriority: jest.fn(),
+  toggleTaskCompletion: jest.fn(),
+  getTasksDueToday: jest.fn(),
+  getOverdueTasks: jest.fn(),
+};
+
+// Mock the TaskService module before importing TaskController
 jest.mock('../../src/tasks/tasks.service', () => {
   return {
-    TaskService: jest.fn().mockImplementation(() => ({
-      getAllTasks: jest.fn(),
-      getTaskById: jest.fn(),
-      createTask: jest.fn(),
-      updateTask: jest.fn(),
-      deleteTask: jest.fn(),
-      getTasksByStatus: jest.fn(),
-      getTasksByPriority: jest.fn(),
-      toggleTaskCompletion: jest.fn(),
-      getTasksDueToday: jest.fn(),
-      getOverdueTasks: jest.fn(),
-    })),
+    TaskService: jest.fn().mockImplementation(() => mockTaskService),
   };
 });
 
-// Import the mocked TaskService to get access to the mock instance
-import { TaskService } from '../../src/tasks/tasks.service';
-const MockedTaskService = TaskService as jest.MockedClass<typeof TaskService>;
+// Import TaskController after mocking
+import { TaskController } from '../../src/tasks/tasks.controller';
 
 // Define the AuthenticatedRequest interface
 interface AuthenticatedRequest extends Request {
@@ -41,13 +42,13 @@ describe('Task Controller - Unit Tests', () => {
   let mockRes: Partial<Response>;
   let mockJson: jest.Mock;
   let mockStatus: jest.Mock;
-  let mockTaskService: any;
 
   beforeEach(() => {
-    // Get the mock instance
-    mockTaskService = new MockedTaskService();
+    // Reset all mocks
+    Object.values(mockTaskService).forEach(mock => mock.mockReset());
     
-    taskController = new TaskController();
+    // Create TaskController with mock service
+    taskController = new TaskController(mockTaskService as any);
 
     mockJson = jest.fn();
     mockStatus = jest.fn().mockReturnValue({ json: mockJson });
