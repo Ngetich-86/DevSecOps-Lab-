@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: taskuser
+          POSTGRES_PASSWORD: taskpassword
+          POSTGRES_DB: taskdb_test
+        options: >-
+          --health-cmd "pg_isready -U taskuser -d taskdb_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      JWT_SECRET: test-jwt-secret-key
+      DATABASE_URL: postgresql://taskuser:taskpassword@localhost:5432/taskdb_test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..20}; do
+            if pg_isready -h localhost -p 5432 -U taskuser -d taskdb_test; then
+              echo "Postgres is ready"; exit 0;
+            fi
+            echo "Waiting for Postgres..."; sleep 3;
+          done
+          echo "Postgres failed to start in time"; exit 1
+
+      - name: Run database migrations
+        run: pnpm migrate
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build TypeScript
+        run: pnpm build
+
+      - name: Run unit tests
+        run: pnpm run test:unit -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT: junit-unit.xml
+
+      - name: Run integration tests
+        run: pnpm run test:integration -- --ci --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT: junit-integration.xml
+
+      - name: Upload test reports (JUnit XML)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-reports
+          path: |
+            junit-*.xml
+            coverage/
