@@ -18,6 +18,6 @@ export default {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  // Run integration tests sequentially to avoid database conflicts
-  maxWorkers: 1,
+  // Run tests with limited workers to avoid database conflicts
+  maxWorkers: process.env.NODE_ENV === 'test' ? 2 : undefined,
 };

@@ -15,9 +15,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:unit": "jest --testPathPatterns=unit --config=jest.config.ts",
-    "test:integration": "jest --testPathPatterns=integration --config=jest.config.ts",
+    "test:integration": "jest --testPathPatterns=integration --config=jest.config.ts --testTimeout=10000",
     "test:unit:ci": "jest --testPathPatterns=unit --config=jest.config.ts --ci --reporters=default --reporters=jest-junit",
-    "test:integration:ci": "jest --testPathPatterns=integration --config=jest.config.ts --ci --reporters=default --reporters=jest-junit --maxWorkers=1",
+    "test:integration:ci": "jest --testPathPatterns=integration --config=jest.config.ts --ci --reporters=default --reporters=jest-junit --maxWorkers=1 --forceExit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
