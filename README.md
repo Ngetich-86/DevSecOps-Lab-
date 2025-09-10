@@ -26,11 +26,18 @@ This project implements the complete DevOps lifecycle:
 - **Dependency management** with pnpm
 - **TypeScript compilation** and **optimization**
 
+> 📸 **Screenshot Placeholder**: GitHub Actions workflow success
+> 📸 **Screenshot Placeholder**: Docker build process and image creation
+
 ### **Test** 🧪
 - **Unit testing** with Jest (22/22 tests passing)
 - **Integration testing** with real database connections
 - **Code coverage** reporting
 - **Security testing** with Trivy vulnerability scanning
+
+> 📸 **Screenshot Placeholder**: Jest test results showing 22/22 tests passing
+> 📸 **Screenshot Placeholder**: Supertest integration test results
+> 📸 **Screenshot Placeholder**: Code coverage report dashboard
 
 ### **Release** 📦
 - **Automated versioning** and **tagging**
@@ -38,11 +45,19 @@ This project implements the complete DevOps lifecycle:
 - **Quality gates** with SonarQube
 - **Security scanning** before release
 
+> 📸 **Screenshot Placeholder**: SonarQube quality gate results
+> 📸 **Screenshot Placeholder**: Trivy security scan results
+> 📸 **Screenshot Placeholder**: GitHub release artifacts
+
 ### **Deploy** 🚀
 - **Container orchestration** with Docker Compose
 - **Azure deployment** strategies
 - **Environment configuration** management
 - **Rollback capabilities**
+
+> 📸 **Screenshot Placeholder**: Docker Compose services running
+> 📸 **Screenshot Placeholder**: Azure deployment dashboard
+> 📸 **Screenshot Placeholder**: Jenkins deployment pipeline
 
 ### **Operate** ⚙️
 - **Application monitoring** with Prometheus
@@ -50,11 +65,19 @@ This project implements the complete DevOps lifecycle:
 - **Performance monitoring**
 - **Health checks** and **alerts**
 
+> 📸 **Screenshot Placeholder**: Prometheus metrics dashboard
+> 📸 **Screenshot Placeholder**: Application health check status
+> 📸 **Screenshot Placeholder**: Log aggregation view
+
 ### **Monitor** 📊
 - **Real-time dashboards** with Grafana
 - **Metrics collection** and **visualization**
 - **Alert management**
 - **Continuous feedback loops**
+
+> 📸 **Screenshot Placeholder**: Grafana monitoring dashboard
+> 📸 **Screenshot Placeholder**: Application performance metrics
+> 📸 **Screenshot Placeholder**: Alert management interface
 
 ---
 
@@ -193,8 +216,55 @@ docker-compose -f docker-compose.prod.yml up -d
 # - Configure credentials for GitHub, SonarQube, and Azure
 ```
 
+> 📸 **Screenshot Placeholder**: GitHub Actions workflow runs
+> 📸 **Screenshot Placeholder**: Jenkins pipeline execution
+> 📸 **Screenshot Placeholder**: CI/CD pipeline overview
+
 ### **Monitoring & Observability**
 - **Prometheus**: Metrics collection and storage
 - **Grafana**: Visualization and alerting
 - **Application Metrics**: Custom business metrics
 - **Infrastructure Monitoring**: System and container metrics
+
+> 📸 **Screenshot Placeholder**: Complete monitoring stack overview
+> 📸 **Screenshot Placeholder**: Grafana dashboard with custom metrics
+> 📸 **Screenshot Placeholder**: Prometheus targets and metrics
+
+---
+
+## 📸 Screenshots & Evidence
+
+*This section will be updated as the project progresses to show authentic evidence of working DevOps tools and processes.*
+
+### **Testing & Quality Assurance**
+- [ ] Jest unit test results (22/22 passing)
+- [ ] Supertest integration test results
+- [ ] Code coverage report
+- [ ] ESLint code quality check results
+
+### **CI/CD Pipeline**
+- [ ] GitHub Actions workflow success
+- [ ] Jenkins pipeline execution
+- [ ] Docker build process
+- [ ] SonarQube quality gate results
+
+### **Security & Scanning**
+- [ ] Trivy vulnerability scan results
+- [ ] Security scan dashboard
+- [ ] Dependency audit results
+
+### **Deployment & Infrastructure**
+- [ ] Docker Compose services running
+- [ ] Azure deployment dashboard
+- [ ] Container orchestration status
+
+### **Monitoring & Observability**
+- [ ] Grafana monitoring dashboard
+- [ ] Prometheus metrics dashboard
+- [ ] Application health check status
+- [ ] Alert management interface
+
+### **Development Tools**
+- [ ] VS Code with project setup
+- [ ] Database schema visualization
+- [ ] API documentation interface
