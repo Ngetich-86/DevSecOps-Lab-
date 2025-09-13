@@ -268,3 +268,8 @@ docker-compose -f docker-compose.prod.yml up -d
 - [ ] VS Code with project setup
 - [ ] Database schema visualization
 - [ ] API documentation interface
+
+
+####  happy coding
+
+#### testing ci/cd
