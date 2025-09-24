@@ -153,7 +153,7 @@ This project is therefore both a **DevOps learning journey** and a **DevSecOps p
 ### **Phase 1: Plan & Code** 📋💻
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/DevSecOps-TaskManager.git
+git clone https://https://github.com/Ngetich-86/DevSecOps-Lab-.git
 cd DevSecOps-TaskManager
 
 # Review the architecture and requirements
@@ -173,7 +173,7 @@ docker-compose up -d
 
 # Execute tests
 pnpm run test:unit        # Unit tests (22/22 passing)
-pnpm run test:integration # Integration tests
+pnpm run test: integration # Integration tests
 pnpm run lint            # Code quality checks
 ```
 
