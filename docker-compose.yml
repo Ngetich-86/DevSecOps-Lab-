@@ -146,6 +146,7 @@ services:
     environment:
       JENKINS_OPTS: "--httpPort=8080"
       CASC_JENKINS_CONFIG: /var/jenkins_home/casc_configs/jenkins.yaml
+      JENKINS_ADMIN_PASSWORD: ${JENKINS_ADMIN_PASSWORD:?set JENKINS_ADMIN_PASSWORD in .env}
     volumes:
       - jenkins_data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
